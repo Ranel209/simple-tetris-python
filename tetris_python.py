@@ -45,3 +45,48 @@ font = pygame.font.Font(None, 45)
 title_tetris = main_font.render('TETRIS', True, pygame.Color('darkorange'))
 title_score = font.render('score:', True, pygame.Color('green'))
 title_record = font.render('record:', True, pygame.Color('purple'))
+
+# Function to generate random colors for figures
+get_color = lambda: (randrange(30, 256), randrange(30, 256), randrange(30, 256))
+
+figure, next_figure = deepcopy(choice(figures)), deepcopy(choice(figures))
+color, next_color = get_color(), get_color()
+
+score, lines = 0, 0
+scores = {0: 0, 1: 100, 2: 300, 3: 700, 4: 1500}
+
+
+def check_borders():
+    if figure[i].x < 0 or figure[i].x > width - 1:
+        return False
+    elif figure[i].y > height - 1 or field[figure[i].y][figure[i].x]:
+        return False
+    return True
+
+
+def get_record():
+    try:
+        with open('record') as f:
+            return f.readline()
+    except FileNotFoundError:
+        with open('record', 'w') as f:
+            f.write('0')
+
+
+def set_record(record, score):
+    rec = max(int(record), score)
+    with open('record', 'w') as f:
+        f.write(str(rec))
+
+
+while True:
+    record = get_record()
+    dx, rotate = 0, False
+
+    # Fill the main screen and game surface with their background colors
+    sc.fill(bg_color)  # Fill the main screen with background color
+    game_sc.fill(game_bg_color)  # Fill the game surface with the game area color
+
+    # Delay for full lines
+    for i in range(lines):
+        pygame.time.wait(200)
