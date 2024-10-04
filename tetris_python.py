@@ -154,3 +154,36 @@ while True:
         else:
             anim_speed += 3
             lines += 1
+
+    # Compute score
+    score += scores[lines]
+
+    # Draw the grid
+    [pygame.draw.rect(game_sc, (40, 40, 40), i_rect, 1) for i_rect in grid]
+
+    # Draw the active figure
+    for i in range(4):
+        figure_rect.x = figure[i].x * tile
+        figure_rect.y = figure[i].y * tile
+        pygame.draw.rect(game_sc, color, figure_rect)
+
+    # Draw the field (occupied cells)
+    for y, raw in enumerate(field):
+        for x, col in enumerate(raw):
+            if col:
+                figure_rect.x, figure_rect.y = x * tile, y * tile
+                pygame.draw.rect(game_sc, col, figure_rect)
+
+    # Draw the next figure (on the side)
+    for i in range(4):
+        figure_rect.x = next_figure[i].x * tile + 380
+        figure_rect.y = next_figure[i].y * tile + 185
+        pygame.draw.rect(sc, next_color, figure_rect)
+
+    # Draw titles and score
+    sc.blit(game_sc, (20, 20))  # Blit the game area
+    sc.blit(title_tetris, (485, -10))  # Tetris title
+    sc.blit(title_score, (535, 780))  # Score label
+    sc.blit(font.render(str(score), True, pygame.Color('white')), (550, 840))  # Display score
+    sc.blit(title_record, (525, 650))  # Record label
+    sc.blit(font.render(record, True, pygame.Color('gold')), (550, 710))  # Display record
