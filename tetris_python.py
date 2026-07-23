@@ -2,6 +2,8 @@ import pygame
 from copy import deepcopy
 from random import choice, randrange
 
+print("Welcome to Tetris! Use arrow keys to move and rotate the pieces. Press ESC to exit.")
+
 # Creating the game window
 width, height = 10, 15  
 tile = 45  
